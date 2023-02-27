@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>JavaScript Code on GitHub</title>
+</head>
+<body>
+  <script>let num1 = 1489;
+let num2 = 714;
+
+// Convert the numbers to strings and reverse them to start from the units place
+let num1_str = num1.toString().split("").reverse().join("");
+let num2_str = num2.toString().split("").reverse().join("");
+
+// Initialize the carry and sum strings
+let carry_str = "";
+let sum_str = "";
+
+// Initialize the result object
+let result = {};
+
+// Iterate over the digits in the numbers and perform addition
+for (let i = 0; i < Math.max(num1_str.length, num2_str.length); i++) {
+  // Get the digit at the i-th place for both numbers
+  let digit1 = parseInt(num1_str[i]) || 0;
+  let digit2 = parseInt(num2_str[i]) || 0;
+  
+  // Calculate the sum and carry
+  let total = digit1 + digit2 + parseInt(carry_str[carry_str.length - 1]) || 0;
+  let carry = Math.floor(total / 10);
+  
+  // Update the carry and sum strings
+  carry_str += carry.toString();
+  sum_str += (total % 10).toString();
+  
+  // Create a dictionary for this step and add it to the result
+  let step_dict = { "carryString": carry_str, "sumString": sum_str };
+  result["step" + (i+1)] = step_dict;
+}
+
+// Reverse the result object to get the steps in the correct order
+result = Object.fromEntries(Object.entries(result).reverse());
+
+// Convert the result to a JSON string and print it
+console.log(JSON.stringify(result, null, 2));
+</script>
+</body>
+</html>
+
